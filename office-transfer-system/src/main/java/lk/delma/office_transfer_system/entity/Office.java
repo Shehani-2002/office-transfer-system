@@ -13,8 +13,7 @@ public class Office {
     private String name;
     private String location;
 
-    public Office() {
-    }
+    public Office() {}
 
     public Office(Long id, String name, String location) {
         this.id = id;
