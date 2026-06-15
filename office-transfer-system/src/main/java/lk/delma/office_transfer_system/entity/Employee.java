@@ -1,5 +1,6 @@
 package lk.delma.office_transfer_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,22 +9,42 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
+    @Column(name = "employee_id")
+    private Long empId;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
     private String email;
     private String phone;
+
+    @ManyToOne
+    @JoinColumn(name = "office_id")
+    @JsonIgnoreProperties("employees")
+    private Office office;
 
     public Employee() {
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Employee(Long empId, String firstName, String lastName,
+                    String email, String phone, Office office) {
+        this.empId = empId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.office = office;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public Long getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(Long empId) {
+        this.empId = empId;
     }
 
     public String getFirstName() {
@@ -56,5 +77,13 @@ public class Employee {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/offices")
 public class OfficeController {
@@ -14,15 +15,27 @@ public class OfficeController {
     @Autowired
     private OfficeService officeService;
 
-    // ➕ POST - Add Office
+    // CREATE
     @PostMapping
     public Office create(@RequestBody Office office) {
         return officeService.saveOffice(office);
     }
 
-    // 📄 GET - All Offices
+    // READ ALL
     @GetMapping
     public List<Office> getAll() {
         return officeService.getAllOffices();
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public Office update(@PathVariable Long id, @RequestBody Office office) {
+        return officeService.updateOffice(id, office);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        officeService.deleteOffice(id);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -22,19 +21,21 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(Long id) {
-        return employeeRepository.findById(id);
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 
-    public Employee updateEmployee(Long id, Employee employeeDetails) {
-        Employee employee = employeeRepository.findById(id).orElseThrow();
+    public Employee updateEmployee(Long id, Employee updated) {
+        Employee emp = getEmployeeById(id);
 
-        employee.setFirstName(employeeDetails.getFirstName());
-        employee.setLastName(employeeDetails.getLastName());
-        employee.setEmail(employeeDetails.getEmail());
-        employee.setPhone(employeeDetails.getPhone());
+        emp.setFirstName(updated.getFirstName());
+        emp.setLastName(updated.getLastName());
+        emp.setEmail(updated.getEmail());
+        emp.setPhone(updated.getPhone());
+        emp.setOffice(updated.getOffice());
 
-        return employeeRepository.save(employee);
+        return employeeRepository.save(emp);
     }
 
     public void deleteEmployee(Long id) {
